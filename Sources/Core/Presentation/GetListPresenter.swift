@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import Combine
+import RxSwift
 
 public class GetListPresenter<Request, Response, Interactor: UseCase>: ObservableObject where Interactor.Request == Request, Interactor.Response == [Response] {
     
-    private var cancellables: Set<AnyCancellable> = []
+    private var disposeBag = DisposeBag()
     
     private let _useCase: Interactor
     
@@ -26,19 +26,15 @@ public class GetListPresenter<Request, Response, Interactor: UseCase>: Observabl
     public func getList(request: Request?) {
         isLoading = true
         _useCase.execute(request: request)
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                    self.isError = true
-                    self.isLoading = false
-                case .finished:
-                    self.isLoading = false
-                }
-            }, receiveValue: { list in
+            .observeOn(MainScheduler.instance)
+            .subscribe { result in
                 self.list = list
-            })
-            .store(in: &cancellables)
+            } onError: { error in
+                self.errorMessage = error.localizedDescription
+                self.isError = true
+                self.isLoading = false
+            } onCompleted: {
+                self.isLoading = false
+            }.disposed(by: disposeBag)
     }
 }

@@ -14,7 +14,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "Realm", url: "https://github.com/realm/realm-cocoa.git", from: "10.1.4")
+        .package(name: "Realm", url: "https://github.com/realm/realm-cocoa.git", from: "10.1.4"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "5.1.1"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -23,6 +24,7 @@ let package = Package(
             name: "Core",
             dependencies: [
                 .product(name: "RealmSwift", package: "Realm"),
+                "RxSwift"
             ]),
         .testTarget(
             name: "CoreTests",

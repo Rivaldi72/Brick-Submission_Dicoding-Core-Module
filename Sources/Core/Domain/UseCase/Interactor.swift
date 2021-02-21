@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Combine
+import RxSwift
  
 public struct Interactor<Request, Response, R: Repository>: UseCase
 where R.Request == Request, R.Response == Response {
@@ -17,7 +17,7 @@ where R.Request == Request, R.Response == Response {
         _repository = repository
     }
     
-    public func execute(request: Request?) -> AnyPublisher<Response, Error> {
+    public func execute(request: Request?) -> Observable<[Response]> {
         _repository.execute(request: request)
     }
 }

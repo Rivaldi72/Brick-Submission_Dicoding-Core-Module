@@ -6,14 +6,14 @@
 //
 
 import Foundation
-import Combine
+import RxSwift
 
 public protocol LocaleDataSource {
     associatedtype Request
     associatedtype Response
     
-    func list(request: Request?) -> AnyPublisher<[Response], Error>
-    func add(entities: [Response]) -> AnyPublisher<Bool, Error>
-    func get(id: String) -> AnyPublisher<Response, Error>
-    func update(id: Int, entity: Response) -> AnyPublisher<Bool, Error>
+    func get(request: Request?) -> Observable<[Response]>
+    
+    func add(from games: [Response]) -> Observable<Bool>
+
 }
