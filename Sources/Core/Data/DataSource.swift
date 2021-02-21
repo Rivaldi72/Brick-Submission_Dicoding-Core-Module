@@ -12,5 +12,5 @@ public protocol DataSource {
     associatedtype Request
     associatedtype Response
     
-    func execute(request: Request?) -> Observable<Response>
+    func execute(request: Request?) -> Observable<[Response]>
 }
