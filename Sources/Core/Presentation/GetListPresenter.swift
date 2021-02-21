@@ -8,7 +8,7 @@
 import SwiftUI
 import RxSwift
 
-public class GetListPresenter<Request, Response, Interactor: UseCase>: ObservableObject where Interactor.Request == Request, Interactor.Response == [Response] {
+public class GetListPresenter<Request, Response, Interactor: UseCase>: ObservableObject where Interactor.Request == Request, Interactor.Response == Response {
     
     private var disposeBag = DisposeBag()
     
@@ -27,7 +27,7 @@ public class GetListPresenter<Request, Response, Interactor: UseCase>: Observabl
         isLoading = true
         _useCase.execute(request: request)
             .observeOn(MainScheduler.instance)
-            .subscribe { result in
+            .subscribe { list in
                 self.list = list
             } onError: { error in
                 self.errorMessage = error.localizedDescription
