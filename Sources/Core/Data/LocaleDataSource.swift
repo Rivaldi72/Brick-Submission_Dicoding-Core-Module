@@ -13,7 +13,6 @@ public protocol LocaleDataSource {
     associatedtype Response
     
     func get(request: Request?) -> Observable<[Response]>
-    
     func add(from games: [Response]) -> Observable<Bool>
 
 }
