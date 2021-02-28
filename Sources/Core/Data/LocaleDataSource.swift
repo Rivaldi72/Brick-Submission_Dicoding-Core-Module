@@ -16,6 +16,6 @@ public protocol LocaleDataSource {
     func add(entities: [Response]) -> Observable<Bool>
     func get(id: Int) -> Observable<Response>
     func update(id: Int, entity: Response) -> Observable<Bool>
-    func addToFavorite(entity: Response) -> Observable<Bool>
+    func addToFavorite(game: Response)
 
 }
